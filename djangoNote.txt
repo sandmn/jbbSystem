@@ -1,0 +1,326 @@
+3.启动django
+python manage.py runserver 0.0.0.0:8000
+4.访问
+http://ip:8000/bsp
+
+https://git.imooc.com/coding-78/coding-78.git
+
+安装 pycharm专业版，python， 在python中安装django， 安装mysql navicat
+安装虚拟环境  pip install virtualenvwrapper-win(linux下不用加-win)
+
+
+
+1.通过makemigrations生成默认的数据表（pycharm中）
+   migrate
+
+2. 创建并进入虚拟环境1（需要知道虚拟环境所在的目录）
+   创建虚拟环境：virtualenv 虚拟环境名（如testvir）(默认创建在当前目录下)
+   进入虚拟环境：cd testvir/Scripts  ， 执行activate.bat
+   查看虚拟环境中安装了哪些开发包：pip list
+   退出虚拟环境：deactivate.bat
+3. 创建并进入虚拟环境2（不需要知道虚拟环境所在的目录）
+    前提：安装 pip install virtualenvwrapper-win(linux下不用加-win)
+    创建虚拟环境：mkvirtulenv 虚拟环境名(默认会放在一个统一的目录Env下，创建成功后直接进入虚拟环境)
+    deactivate：退出虚拟环境
+    workon：查看当前有哪些虚拟环境
+    workon 虚拟环境名：进入虚拟环境
+    pip (un)install 开发包名：在虚拟环境中（卸载）安装开发包
+
+
+
+4. django orm：不必使用接口去连接数据库，查询数据库，对查询结果进行操作提取。使得对数据库的操作如操作类一样
+5. 每建一个app，都需要在settings中注册
+6. 在models中使用中文是，要在开头引入utf-8：_*_ coding:utf-8 _*_
+7. models文件编写完成之后，
+    tools->run task...
+    makemigrations message(appname)
+    migrate message(appname)  
+    以上步骤用于生成对应models中字段的数据表
+8. 
+
+
+
+
+
+
+
+
+
+
+
+
+新建项目：
+1. 新建虚拟环境：mkvirtualenv jinbaobei
+2. 在虚拟环境中安装django：pip install django==1.9
+3. pycharm中新建项目JBBSystem，使用上述的虚拟环境
+4. 虚拟环境中安装mysql驱动：pip install mysql-python
+    出错后找到"下载"目录下的mysqlclient文件，进行安装
+5. 配置settings文件中的DATABASES，在navicat中建立该数据库（数据库名用小写）
+6. 生成默认的数据表：tool -> run manage.py task ->输入命令：makemigrations  migrate
+7. debug运行，在浏览器中输入网址进行查看
+
+
+users.models.py设计
+一，自定义userprofile覆盖默认user表
+二，邮箱验证码：
+三，轮播图：
+1. 新建app：tool -> run manage.py task ->输入命令：startapp users
+2. 设计models.py文件：希望继承系统自带的user表，同时可以自己添加一些字段。设计UserProfile类和Meta类，def __unicode__(self)
+    图形定义：models.ImageField(upload_to="image/%Y/%m",default=u"image/default.png", max_length=100)  ?????
+    Meta中：verbose_name_plural  ？？？
+    def __unicode__(self): return self.username  ？？？
+    开头引入;utf-8编码
+3. 在settings中注册app：“users”
+    重载setting方法：AUTH_USER_MODEL = "users.UserProfile"
+4. 开头引入;utf-8编码
+    CharField：必须指定最大长度
+    ImageField：依赖pillow库，在虚拟环境中安装：pip install pillow
+5. models改变之后：makenigration app名
+                                 migrate  app名
+
+course/organization/operation models.py设计
+设计完成之后，将app名注册到settings中
+makemigrations：生成model的变动文件
+migrate ：生成数据表
+
+
+
+1. 将所有app放入apps目录下：新建一个python Package目录，将所有app拖入该目录下，注意拖入时下面两个选项不要选中
+2. 右击apps，mark -> sourse root ：将apps目录作为sourse目录（注意：这里只是编辑器将apps加入到搜索目录下）
+    在settings配置apps的路径：import sys
+                                                sys.path.insert(0,os.path.join(BASE.DIR,'apps'))
+3. debug执行，在虚拟环境外执行：注意安装mysql-python和Pillow
+
+
+
+jdango后台管理系统：admin
+1. createsuperuser：创建超级用户 （配置好账号，邮箱，密码之后在浏览器中跳转到admin）
+2. 设置后台管理系统为中文模式：在settings中修改：LANGUAGE_CODE = 'zh-hans'
+                                                                                  TIME_ZONE = 'Asia/Shanghai'
+                                                                                  USE_TZ = False
+3. 在app下的admin文件中进行注册：然后再访问admin
+    如果add时出现问题：IntegrityError at /admin/users/userprofile/add/
+    在settings文件中的DATABASES中添加：'OPTIONS': {
+            "init_command": "SET foreign_key_checks = 0;",}
+
+
+使用后台管理系统xadmin
+1. 安装xadmin:
+    方法一：pip install xadmin  （虚拟环境中安装）pip install git+git://github.com/sshwsfc/xadmin.git
+               （如果提示没有发现模块：requests，则执行命令下载：pip install requests）
+                 安装完成后，在浏览器中进行访问：127..0.0.0:8000/xadmin
+    方法二：源码安装：进入github官网：github.com
+                  搜索xadmin，进入xadmin源码地址
+                  download源码，解压
+                  进入解压后的目录，将xadmin拷贝到根目录下
+                  在根目录下创建python Package包，将xadmin放入该目录下，再将该目录mark一下，将extra_apps路径insert到settings中
+                  因为方法一中已经安装了xadmin和相应的依赖包，现在源码引入xadmin，所以需要将上述安装的xadmin卸载：pip uninstall xadmin(依赖包不用卸载) 
+2. 在settings中配置app：‘xadmin’, 'crispy_forms'
+3. url.py中修改：import xadmin
+                          url(r'^xadmin/',xadmin.site.urls),
+   把之前admin中注册的内容注释掉
+4. 生成xadmin中默认的表：makemigrations migrate
+
+
+
+注册app：
+1. 在app目录下新建adminx.py文件，将models中的类都注册到该类中，django会自动在每个app的该文件中查看
+    设置python文件的模板：file -> settings -> 搜索template -> 点击File and Code Template ->点击python script -> 在文件中进行设置即可。
+    verbose_name_plural = verbose_name：如果不加该句，会在后台管理系统的名字后面加s
+2. 在adminx.py文件中进行app的注册，然后在浏览器中访问
+    如果在添加保存记录时出错：makemigrations xadmin  -> migrate xadmin
+    设置邮箱验证码显示：在models.py中修改。重载str方法
+3. 将model注册到xadmin中
+设置显示字段：在xadmin.py中设置list_display字段
+实现增删改查：增删改页面上已经存在，查：在xadmin.py中设置search_fields字段
+设置筛选器：在xadmin.py中设置list_filter字段
+4. 注意外键的书写
+
+
+xadmin全局配置：在users/adminx.py中进行配置
+1. 配置主题：from xadmin import views
+                     class BaseSetting(object):
+                            enable_themes = True  # 设置主题功能，默认不设置主题  
+                            use_bootswatch = True   无效
+                     xadmin.site.register(views.BaesAdminView, BaseSetting)
+2. 标题/尾标设置，侧栏目录折叠设置：
+from xadmin import views
+class GlobalSettings(object):
+    site_title = "金宝贝早教中心管理系统"  #标题配置
+    site_footer = "金宝贝早教中心"   #下面配置
+    menu_style = "accordion"
+xadmin.site.register(views.CommAdminView, GlobalSettings)
+3. 侧栏标题中文设置：
+在每个app目录下的apps.py文件中添加：verbose_name = u"用户操作" （注意引入utf-8）
+app目录下的init文件中添加：default_app_config = "operation.apps.OperationConfig"
+
+
+首页和登陆页面的配置：前端页面的设置
+1. 将html页面放在Template目录下；在url文件中配置url
+2. 在根目录下创建static文件，用于存放所有的css，js，images文件等。
+3. 在settings文件中配置TEMPLATES下的DIRS和STATICFILES_DIRS
+4. 修改html文件中的cs和js引用，image
+5. html文件中,href配置
+
+1. 登陆页面html文件也配置到templates下，根据上述进行修改js css文件
+2. url文件配置：点击登陆跳转的url配置
+
+
+view.py设置：首先访问index页面，点击登陆后进入login句柄，录入信息后，点击登陆即提交表单后根据action访问login页面
+1. 配置view.py页面的逻辑
+2. 配置url.py：from users.views import login
+                       url('^login/$', login, name="login")  # 访问login句柄
+3.发生403页面时，在表单中配置：{% csrf_token%}
+4. 自定义类后在settings.py文件中进行配置：AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
+5. 相应的html文件设置：if/else   msg
+6. 继承View，使用view的get，post方法：在url中访问类
+    使用django的form自行验证输入字符是否合法：创建form文件
+    账号/密码：非法/错误提示：在html文件中进行设置
+
+
+session和cookie自动登陆机制
+1. http是无状态协议：
+2. cookie：本地状态，存储在浏览器中
+    浏览器发送请求，服务器分配Id发给浏览器，浏览器将id和信息（key_value存储在某个域名下）保存在本地的cookie中。
+    再次向服务器发送时会携带上cookie中的所有内容，服务器看到id后，会取出浏览器的信息返回给浏览器，
+    将用户信息放在本地cookie中
+3. session：服务器生成session id ，对用户信息加密，设置过期时间
+                   然后将session_id返回给浏览器cookie中，再次访问时只需将session_id携带上发送给服务器
+
+
+注册功能实现：
+1. 注册页面html实现
+2. url配置
+3. view实现
+4.  图片验证码配置：github中搜索django-captcha
+虚拟环境中安装插件实现验证码：pip install django-simple-captcha==0.4.6
+将'captcha'放在settings的app中
+将captcha加入到url中
+makemigration,migrate生成表
+5. form中验证注册验证码相关的字段
+6. view.py中配置相关代码：
+    判断用户输入是否合法，获取用户邮箱/用户名输入，保存到数据库中
+    给用户发送激活邮件
+    忘记密码
+
+
+课程机构模块的实现：
+1. 所有页面头和尾内容相同，内容不同，所以使用模板继承
+templates模板继承：创建base.html，然后其他html文件继承它。
+在要继承的部分加上block，对block进行命名，然后在要继承的文件中改写新的内容
+2. 在显示机构城市和名称时，通过在views文件中获取数据库中的存储，然后通过for循环显示在前端页面中
+    将机构models中的相关信信从数据库中获取显示在前端页面中
+3. 前端图片的显示：通过获取数据库中的存储，将其存储在指定目录下
+   （图片的存储需要在settings中指定路径同时在url中配置上传的路径）。然后指定目录在前端页面中显示
+4. 分页功能的实现：
+    github中搜索：pure pagination；
+    虚拟环境中安装：pip install django-pure-pagination
+    settings中添加app：'pure_pagination',
+    view中书写代码，html中书写代码
+5.url include的配置
+
+配置404页面：
+1. users.views中编写page_not_found函数
+2.全局url文件中配置handler404
+3.settings文件中将DEBUG给为False，并修改ALLOWED_HOSTS
+4，在settings中配置：STATIC_ROOT
+     在urls文件中设置STATIC_ROOT的url
+
+
+sql注入：通过输入sql语句，而不检查，造成错误
+sql注入的危害：
+非法读取，篡改，删除数据库中的数据
+盗取用户的各类敏感信息，获取利益
+通过修改数据库来修改网页上的内容
+注入木马等
+
+
+xss攻击：服务器没有对用户传输的url信息没有校验，造成xss攻击
+               黑客通过获取受害者浏览器的session_id，直接向浏览器发送信息
+盗取用户各类账号
+盗取企业重要的具有商业价值的资料
+非法转账
+控制受害者机器向其他网站发起攻击，注入木马等
+
+
+csrf攻击：跨站请求伪造
+
+
+
+djangoueditor插件安装：
+在网上下载与python版本对应的djangoueditor
+1. 进入虚拟环境的源码包目录下： pip install DjangoUediitor
+2. settings.py中INSTALLED_APPS中加入DjangoUeditor
+3. url文件中配置url    url(r'^ueditor/', include('DjangoUeditor.urls')),
+4. model文件中引入UEditorField,然后在定义的字段中使用： detail=UEditorField()
+xadmin目录下:
+1. plugins目录下添加ueditor.py文件，该文件的逻辑要自己书写
+2. 在__init__文件 PLUGINS 中加入ueditor
+
+3. 在要使用的model目录下的adminx文件中添加style_fields = {"detail":"ueditor"}
+    detail表示要是用的字段名
+最后要注意：如果下载的是djangoueditor2，修改以下内容
+因为下载的djangoueditor是属于python2的，所以其中的语法不符合py3，修改以下内容：
+1. import settings as ...     改为  from . import settings as
+    from views improt   改为   from .views import
+2. 抛异常代码：
+     except Exception , E    改为   except Exception as E
+3. dict中没有has_key属性，要改为get
+
+
+
+
+
+配置一个前端页面
+1. 先在view中书写相关的逻辑代码；
+2. 在url中配置相关的路径，    url(r'^list/$', CourseListView.as_view(), name="course_list"),
+    list/：展现在浏览器地址栏中
+    CourseListView：浏览器进入list/路径后，会执行该函数的相关逻辑，在该View中返回html文件，进而执行html文件
+    course_list：对该路径起一个别名，在其他文件中要进入该路径时，可以别名代替，而不用使用路径名，避免重复修改
+
+
+
+django orm：查询数据库，对查询结果进行操作提取。简化数据库的操作，例如数据表Course（一个model）
+1. Course.objects.all()：获取所有记录
+2. Course.object.filter(筛选条件)  / Course.object.filetr(筛选条件)
+区别：
+输入参数：
+	get的参数只能是model中定义的那些字段，只支持严格匹配
+	filter的参数可以是字段，也可以是扩展的where查询关键字，如in,like等
+	如：name__icontains=words   查询name中包含word的记录（注意是双下划线）
+	       id__in=ids    查询id在ids中存在的记录
+
+返回值：
+	get的返回值是一个model对象
+ 	filter的返回值是一个新的QuerySet对象，可以对QuerySet进行查询返回新的QuerySet对象，支持链式操作
+	(QuerySet是一个集合对象，可以迭代，遍历，切片，但不等于list类型)
+异常：
+	get只有一条记录返回的时候才正常，所以get的查询字段必须是主键或者唯一约束的字段。当返回多条记录或没有找到记录时都会抛异常
+	filter有/没有匹配的字段都不会抛异常
+3. Course.objects.all().order_by(排序字段)：根据排序字段对所有记录排序
+
+
+
+从request中获取前端数据：request是HttpRequest对象，该对象有Django创建
+1. 发送一个http请求时，前端的相关数据全部保存在request对象中，如HTTP请求信息，url路径，get表单中的数据，get表单或url中的数据
+sort = request.GET.get('sort', '')：获取get方式中url中sort的值
+2. 根据request判断用户是否登陆：request.user.is_authenticated():登陆为True,否则为False
+3. 类试图中定义def方法：def get(self, request, course_id):
+    request表示get请求的相关信息
+    course_id：从前端页面传来
+
+
+
+
+render：将数据填充进模板文件，然后把结果返回给浏览器
+HttpResponse：返回一个动态页面/hTTP请求
+ user_ids = [user_couser.user.id for user_couser in user_cousers]：获取所有用户的id
+
+
+
+
+
+
+
