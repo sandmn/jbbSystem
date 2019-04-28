@@ -1,0 +1,211 @@
+1. Abd  device:查看电脑链接的设备信息
+    出现问题：List of devices attached
+356790d7	no permission
+访问网站：
+https://wiki.n.miui.com/pages/viewpage.action?pageId=25046573  改内容
+https://wiki.n.miui.com/pages/viewpage.action?pageId=6615622  重启
+
+2. java环境变量出现问题：直接按照提示的信息下载即可 
+sudo apt install openjdk-8-jre-headless  
+
+3. ubuntu上安装微信：
+sudo apt install snapd snapd-xdg-open
+sudo snap install electronic-wechat
+
+
+
+
+
+
+
+
+
+
+
+1. Abd  device:查看电脑链接的设备信息
+    出现问题：List of devices attached
+356790d7	no permission
+访问网站：
+https://wiki.n.miui.com/pages/viewpage.action?pageId=25046573  改内容
+https://wiki.n.miui.com/pages/viewpage.action?pageId=6615622  重启
+
+2. java环境变量出现问题：直接按照提示的信息下载即可 
+sudo apt install openjdk-8-jre-headless  
+
+3. ubuntu上安装微信：
+sudo apt install snapd snapd-xdg-open
+sudo snap install electronic-wechat
+
+
+
+
+
+Abd  device:查看电脑链接的设备信息
+    出现问题：List of devices attached
+356790d7	no permission
+访问网站：
+https://wiki.n.miui.com/pages/viewpage.action?pageId=25046573  改内容
+https://wiki.n.miui.com/pages/viewpage.action?pageId=6615622  重启
+
+java环境变量出现问题：直接按照提示的信息下载即可 
+sudo apt install openjdk-8-jre-headless  
+
+
+
+
+1. 判断状态栏中的UI元素是否打开：
+checked属性（子类，父类）
+相反状态来判断
+2. assertTrue(String,boolean);
+  根据元素的描述等属性获得Ui元素：通过id,text,desc（正则表达式：Pattern.compile）等描述。
+   boolean型变量可通过ischecked, isclicked,等来获得
+   
+3. 长按：
+mm.getUiObject().longpress();
+mm.getUiDevice().swipe(startx,starty,endx.endy,steps):从起始的坐标托steps步到末尾的坐标
+4. 点击
+mm.click(描述一个界面元素的属性)
+su.waitAndClick(描述一个界面元素的属性)  SystemUtils
+su.clickXY(描述一个界面元素的属性)   SystemUtil
+uiobjected.click();   获得一个界面元素后进行点击
+
+su.waitForExist(描述一个界面元素的属性) 
+5. 等待
+mm.sleep(Config.);
+
+6. 定位一个元素
+su.getUiObject(描述一个界面元素) ： 不可以定位列表元素
+mm.getUiObject(描述界面元素)：不可以定位列表元素
+mm.getUiDevice().findObject(描述一个元素)  :可以定位列表元素
+
+7,获得一个元素的坐标
+先定位一个UI元素之后获得UiObject2变量，在调用getVisibleBounds().CenterX();  getVisibleBounds().CenterY()获得横纵坐标
+
+8.  长按静音
+//方法1
+//mm.getUiDevice().findObject(By.desc(Pattern.compile(".*静音.*"))).longClick();
+//方法2
+        mm.getUiObject(By.desc(Pattern.compile(".*静音.*"))).longClick();
+        //方法3
+//        List<UiObject2> list = mm.getUiDevice().findObjects(By.desc(Pattern.compile(".*静音.*")));
+//        int x = list.get(list.size()-1).getVisibleBounds().centerX();
+//        int y = list.get(list.size()-1).getVisibleBounds().centerY();
+        //方法4
+//        UiObject2 object2 = mm.getUiObject(By.desc(Pattern.compile(".*静音.*")));
+//        int x = object2.getVisibleBounds().centerX();
+//        int y = object2.getVisibleBounds().centerY();
+//        mm.getUiDevice().swipe(x,y,x,y,50);
+STEP_WAITTIME:500ms
+LAUNCHAPP_TIMEOUT:5s
+9. 提交代码
+先对修改的文件 git add(右击)，
+git status  查看状态
+git commit -s : 进行备注
+git commit –amend  :查看备注的文件
+git push ssh://yanxuechun@gerrit.pt.miui.com:29418/miui/auto/omni/omni-java-case HEAD:refs/for/master   ：提交
+
+丢失Change-ID
+gitdir=$(git rev-parse --git-dir); scp -p -P 29418 yanxuechun@gerrit.pt.miui.com:hooks/commit-msg ${gitdir}/hooks/
+
+进入网址：http://gerrit.pt.miui.com/#/c/501889/   进行提交
+
+创建一个目录之后，在testcode→ config.ini文件中添加修改，同时该文件也要add进行提交
+
+拉取代码：git clone ssh://yanxuechun@git.mioffice.cn:29418/miui/auto/omni/omni-java-case
+
+
+10。
+拉取代码：git clone ssh://yanxuechun@git.mioffice.cn:29418/miui/auto/omni/omni-java-case
+出现问题 ： cannot open zip file：file  → settings → Build → Gradle → use local → /home/mi/下载/android-studio/gradle/gradle-4.10.1
+
+11.  测试脚本路径：app → src → AndroidTest → java → v10.com
+
+12. CameraUtils:相机工具
+        PkgNameUtils:包工具
+   MusicPlayerUtils  音乐包
+   SettingsUtil  设置包
+   MarketUtils  应用市场工具包
+
+
+
+        mm.clearPackage(PkgNameUtils.) : 清理包
+
+
+
+打开相机后，判断相机包是否存在
+cc.assertTrue("Open camera", su.waitForExist(By.pkg(PkgNameUtils.CAMERA)));
+cc.assertUiObjectExist(By.pkg(PkgNameUtils.CAMERA));
+
+13.
+用指定包名启动App : mm.launchApp(PkgNameUtils.)
+
+下载App:mu.downloadApp(字符串类型)
+
+输入法弹出：systemUtil.inputMethodPop();
+
+连接Wife：stu.connectWLAN();
+
+systemUtil.setBluetoothEnable(false);//设置蓝牙状态为关闭
+
+命令关闭移动数据
+mm.getUiDevice().executeShellCommand("svc data disable");
+
+判断手机上是否安装某个应用：
+//返回正在检测的目标程序的上下文
+Context context = mInstrumentation.getTargetContext();
+public boolean isApplicationAvilible(Context context, String appPackageName)
+
+
+14. 抛异常
+
+15. 左滑状态栏
+Logger.i("左滑状态栏");
+UiObject2 uiObject2 = mm.getUiObject(By.res("com.android.systemui:id/quick_settings_panel"));
+int y = uiObject2.getVisibleBounds().centerY();
+int right = uiObject2.getVisibleBounds().right;
+int left = uiObject2.getVisibleBounds().left;
+mm.getUiDevice().swipe(right-1, y, left+1, y, 50);
+16 , 
+
+adb shell  进入手机调试，查看手机版本信息
+//在脚本中执行命令
+cd /system/bin
+svc help
+
+
+adb reboot bootloader:手机进入刷机模式
+./flash_all.sh  运行刷机脚本
+
+17. 判断一个APP是否打开成功：判断该APP的包是否存在
+ 
+18. Settings : 提供全局系统级别的选项
+
+mm.getUiDevice().executeShellCommand("am broadcast -a xiaomi.intent.action.SHOW_SECURE_KEYGUARD");
+
+19.mm.getUiDevice().pressKeyCode(KeyEvent.KEYCODE_ENTER);
+模拟键盘事件
+20.dos = new DataOutputStream(new FileOutputStream(mFile))
+new FileOutputStream(mFile):相当于将文件mFile打开来向其写入内容
+new DataOutputStream：创建一个新的数据输出流，来向基础数据流写入（参数代表基础数据流）
+21.mDevice.dumpWindowHierarchy(mFile)
+将当前桌面上的所有元素数据dump到文件mFile中
+22.reader = new FileReader(mFile.getAbsoluteFile());
+获取文件的读句柄
+
+23. BufferedReader bufferedReader = new BufferedReader(reader)
+创建缓冲输入流
+24.获取默认的输入法
+String mDefaultInputMethodCls = Settings.Secure.getString(
+        uiContext.getContentResolver(),
+        Settings.Secure.DEFAULT_INPUT_METHOD);
+getContentResolver：获取应用程序的contentresolver实例
+getstring：根据contentresolver在数据库中找到默认的输入法
+
+25.
+shell命令：（获取默认的数据卡）getprop persist.radio.default.data
+获取默认的拨号卡：getprop persist.radio.default.voice
+返回的是字符串
+查看手机卡的运营商：getprop gsm.sim.operator.numeric
+26.adb shell 查看包名
+pm list package | grep
+
