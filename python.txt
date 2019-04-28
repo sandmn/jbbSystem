@@ -1,0 +1,12 @@
+1.popen = subprocess.Popen(args,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=STDOUT,shell=True)
+  该函数的作用是开启一个进程，该进程有一下特点：
+  args：表示进程要执行的shell命令，如['ls','a']或（‘ls’,'-a'）。若命令由多个单词的字符串组成，如'ls -a',就需要指定shell为True
+  该进程的标准输入如果使用默认的是键盘，这里将标准输入指定为管道。即进程一直监听标准输入，从标准输入中读取内容，没有内容就等待
+  该进程的标准输出如果使用默认的是屏幕，这里将标准输出指定为管道。即进程只要有内容输出，就输出到标准输出中
+2.如果要使进程执行后续的命令，只需要想标准输入即管道中写命令即可。如popen.stdin.write(args).注意：命令字符串结尾一定要加'\n'
+  如果要获取命令执行的结果。只需要读取标准输出即管道中的内容即可。如st = popen.stdout.read()
+3.也可以用过如下方式输入命令，读取结果：out,err = popen.comminucate(args).如果要执行的命令是getevent不断输出结果，还是用write比较好
+    out表示输出结果，err表示程序退出状态码，args表示要执行的命令
+4.child1 = subprocess.Popen(['cat','/etc/passwd'],stdout=subprocess.PIPE)
+  child2 = subprocess.Popen(['grep','0:0'],stdin=child1.stdout,stdout=subprocess.PIPE)
+  child2.stdout.read():即可达到 cat /etc/passwd | grep '0:0'  的效果

@@ -1,0 +1,265 @@
+1. 当显示页面时，浏览器会移除源代码中多余的空格和空行(这里的空格和空行指的是键盘敲出来的)。所有连续的空格或空行都会被算作一个空格。需要注意的是，HTML 代码中的所有连续的空行（换行）也被显示为一个空格。
+2.<p></p>结束之后会在后面加一个空行
+3.文本样式定义：
+字体，颜色，大小：<p style="font-family:verdana;coler:red;font-size:20px;">
+文本对齐方式：<h1 style="text-align:center;">
+<b></b>:加粗
+<i></i>:斜体字
+<pre></pre>:显示空格和空行
+<abbr title="etcetera">etc.</abbr>:缩略词
+<acronym title="World Wide Web">WWW</acronym>：简写
+<bdo dir="rtl">This</bdo>：文本从右往左输出
+<blockquote></blockquote>：长引用，使用 blockquote 元素的话，浏览器会插入换行和外边距
+<q></q>：短引用，不会有任何特殊的呈现，会在q元素周围包围引号
+<del></del>,<ins></ins>：删除插入文本
+style="text-decoration:none"：链接不显示下划线
+4.内部样式表：
+<head>
+<style type="text/css">
+h1 {color:red}
+p {color:blue}
+</style>
+</head>
+5.外部样式表进行格式化：
+<head>中：<link rel="stylesheet" type="text/css" href="css文件路径"></head>
+6.内联样式：<p style="color: red">This is a paragraph</p>
+7.超链接：<a href="...">字/词/图像</a>：可以链接本地或者网络上的文档
+target：该属性会在新窗口打开文档
+name：该属性用于创建文档中的书签，然后通过href属性来定位该书签，如：
+      <a name="tips">基本事项-有用的提示</a>：书签标记处
+      <a href="#tips">有用的提示</a>:点击此处跳到书签处（href的内容也可以为url+#）
+8.页面背景图片：<body background="/i/eg_background.jpg">
+  背景色/字体颜色：<body style="background-color:red;color:red">
+  图像对齐方式：<img align="bottom">:align还可以取top,middle,left,right
+9.创建图像映射：图像上每个区域都是一个超链接 <map> <area>
+10.表格：
+<table border="">:定义表格  表示表格的边界，数字越大边界越粗
+<tr>：一行的开始
+<td>：每个表格数据的开始
+<th>：表头，浏览器会将其显示为粗体居中的文本
+<caption>：标题
+<th colspan="2" rowspan="2" align="left/right">：跨行或跨列的单元格,单元格内排列内容
+<table cellpadding=”10“  cellspacing="10" bgcolor="" background="">：
+单位格边距，单位格间距，背景顔色，背景图片
+<table frame="box/above/below/hsides/vsides">：框架属性
+11.列表：
+无序列表：<ul type="desc/circlesquare"><li></li></ul>：黑心圆点（默认）/空心圆点/方形点
+有序列表：<ol type="A/a/I/i"><li></li></ol>:默认是数字1,2,3
+自定义列表：<dl><dt></dt><dd></dd></dl>：<dt>定义列表项(属性),<dd>定义列表项的定义(值)
+12. 使用base标签使所有页面在新窗口中打开:
+<head>
+<base target="_blank">
+</head>
+13.小于号：&lt;/&#60;     空格：&nbsp;
+14.表单要正确的被提交，每个输入字段都必须设置一个name属性。
+   用<fieldset>组合表单中的相关数据
+   用<legend>为<fieldset>定义标题
+15.表单元素：
+下拉列表：<select name=""><option value=""></option></select>
+定义多行输入字段：<textarea name="" rows="" cols=""></textarea>
+按钮：<button type="button" onclick="alert('Hello World')"></button>
+<datalist>：为<input>元素规定预定义选项列表。<input>选项的list元素属性必须引用<datalist>元素的id属性
+<input list="browsers" name="">
+<datalist id="browsers">
+<option value=""></option>
+</datalist>
+</input>
+16.表单<input>输入类型：
+<input type="text/password/submit/radio/checkbox/button">
+<input type="number/data/color/range/month/week/time/datatime/datatime-local/email/search/tel/url">：可以设置上下限
+17.<input>输入属性
+value/readonly/disable/size/maxlength:输入字段的初始值/只读/禁用/尺寸（以字符记）/最大长度
+
+
+
+
+
+
+
+16.css属性
+color:字体颜色
+background-color:背景色
+padding：行内间距(px)
+text-decoration:none/overline/line-through/underline/blink:链接不要下划线
+letter-spacing:字间距(20pxs)
+line-height：行间距(百分比，像素值px，数值)
+text-align：文本对齐方式(center/left/right)
+text-indent:文本缩进（1cm）
+white-space:nowrap（禁止文本转行）
+word-spacing：单词间距（像素值px）
+font-family:字体
+font-size:字体大小
+font-style:字体风格(normal/italic/oblique)
+font-weight：设置字体粗细(normal/bold/数值)
+所有字体属性/外边距属性/内边距属性可以在一个声明之内
+margin-left/right/top/bottom:指定外边距（cm）  margin:cm
+padding-bottom/left/top/：指定内边距(cm,百分比)  padding:cm/%
+list-style-type:无序列表中不同类型的列表 标记
+
+17.选择器
+id选择器以"#"来定义：#red{}:定义id为ed的元素
+派生选择器：如li strong{};  #red p{};  .center p{}; p.center{}; 
+类选择器以“.”来定义：.center{}:定义class为center的元素
+
+18.css背景:所有背景属性在一个声明之中(background:)
+background-color:背景色
+background-image:url(路径)背景图
+background-repeat:repeat-x/repeat-y/repeat/no-repeat :背景重复
+background-position:center/top/bottom/right/left/百分比/长度值  :背景定位
+background-attachment:fixed  :图像关联（背景随文档滚动）
+
+19.css文本
+text-indent:长度值/百分比：文本缩进（应用于块级元素）
+text-align:left/right/center/justfy ：文本左对齐/右对齐/居中/两端对齐
+word-spacing:字/单词间隔
+text-transform：none/uppercase/lowercase/capitalize : 字符转换: 不改动/转大写/转小写/首字母大写
+text-decoration：none/underline/overline/line-through/blink  :文本装饰：无装饰/下划线/上划线/中间贯串线/文本闪烁/
+white-space：normal/pre/nowrap  空白符显示（normal时合并所有的空白符，忽略换行符，pre会显示所有的空白符和换行，nowrap禁止换行）
+line-height：百分比/像素值/数值    行高
+
+20.字体：所有字体属性在一个声明之中
+font-family：指定字体
+font-style：normal/italic/oblique  字体风格：正常/斜体/倾斜
+font-variant：small-caps  设定小型大写字母
+font-weight：normal/bold/数值（100-900）    设置文本的粗细
+font-size：字体大小（）单位：px/em
+
+21.css链接
+a:link {color:#FF0000;}		/* 未被访问的链接 */
+a:visited {color:#00FF00;}	/* 已被访问的链接 */
+a:hover {color:#FF00FF;}	/* 鼠标指针移动到链接上 */
+a:active {color:#0000FF;}	/* 正在被点击的链接 */
+text-decoration  background-color
+链接框：
+a:link,a:visited
+{
+display:block;
+font-weight:bold;
+font-size:14px;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+color:#FFFFFF;
+background-color:#98bf21;
+width:120px;
+text-align:center;
+padding:4px;
+text-decoration:none;
+}
+
+22.css列表：将所有列表属性放在一个声明中：list-style
+list-style-type:circle/square/disc/upper-roman/lower-alpha/decimal  :无序/有序列表序号
+list-style-image:url(路径)  ：使用路径作为序号
+
+23.css表格
+border:表格边框
+border-collapse：collapse  将表格边框折叠为单一边框
+width/height：表格的宽度和高度
+text-align/vertical-align：/垂直对齐方式
+
+
+24.内边距
+padding-top/right/bottom/left：
+padding:10px :各边都是哦10像素
+padding:10px 0.25em 2ex 20%（根据父元素的width计算）; 上右下左内边距
+
+25.边框（如果希望边框出现，必须声明一个边框样式），边框属性在一个声明中
+border-style：solid dotted dashed double   ：实线上边框  点线右边框  虚线下边框 双线左边框
+border-style：outset ：按钮突起效果
+border-width：thin/medium/thick/px/em： 边框宽度
+border-color：边框颜色
+
+26.外边距：margin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
