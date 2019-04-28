@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}课程机构列表 - 慕学在线网{% endblock %}
+{% load staticfiles %}
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <ul  class="crumbs">
+                <li><a href="/">首页</a>></li>
+                <li>课程介绍</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+
+{% block content %}
+<section>
+	<div class="wp butler_list_box list">
+        <div class="left layout">
+				<div class="head">
+					<ul class="tab_header">
+						<li class="active">课程详情</li>
+					</ul>
+				</div>
+				<div class="tab_cont tab_cont1">
+                    {% autoescape off %}
+					{{ course.detail }}
+                    {% endautoescape %}
+				</div>
+
+			</div>
+    </div>
+</section>
+{% endblock %}
