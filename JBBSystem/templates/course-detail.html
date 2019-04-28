@@ -174,7 +174,8 @@ function add_fav(current_elem, fav_id, fav_type){
                 if(data.msg == '用户未登录'){
                     window.location.href="/login/";
                 }else{
-                    alert(data.msg)
+                    {#alert(data.msg);#}
+                    confirm(data.msg);
                 }
 
             }else if(data.status == 'success'){

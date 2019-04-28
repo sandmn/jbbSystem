@@ -23,19 +23,19 @@
 		<div class="personal_des permessage">
 			<div class="companycenter">
 				<div class="group_list brief">
-                    {% for user_course in user_courses %}
+                    {% for user_course in course_list %}
                     <div class="module1_5 box">
-                            <a href="{% url 'course:course_detail' user_course.course.id %}">
-                                <img width="214" height="190" class="scrollLoading" src="{{ MEDIA_URL }}{{ user_course.course.image }}"/>
+                            <a href="{% url 'course:course_detail' user_course.id %}">
+                                <img width="214" height="190" class="scrollLoading" src="{{ MEDIA_URL }}{{ user_course.image }}"/>
                             </a>
                             <div class="des">
-                                <a href="{% url 'course:course_detail' user_course.course.id %}"><h2>{{ user_course.course.name }}</h2></a>
-                                <span class="fl">课时：<i class="key">{{ user_course.course.learn_times }}</i></span>
-                                <span class="fr">学习人数：{{ user_course.course.students }}</span>
+                                <a href="{% url 'course:course_detail' user_course.id %}"><h2>{{ user_course.name }}</h2></a>
+                                <span class="fl">课时：<i class="key">{{ user_course.learn_times }}</i></span>
+                                <span class="fr">学习人数：{{ user_course.students }}</span>
                             </div>
                             <div class="bottom">
-                                <span class="fl">{{ user_course.course.course_org.name }}</span>
-                                <span class="star fr  notlogin" data-favid="15">{{ user_course.course.fav_nums }}</span>
+                                <span class="fl">{{ user_course.course_org.name }}</span>
+                                <span class="star fr  notlogin" data-favid="15">{{ user_course.fav_nums }}</span>
                             </div>
                         </div>
                     {% endfor %}

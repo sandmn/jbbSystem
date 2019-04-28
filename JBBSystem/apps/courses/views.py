@@ -9,6 +9,7 @@ from django.db.models import Q
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from operation.models import UserFavorite, UserApply, CourseComments, UserCourse
 from utils.mixin_utils import LoginRequiredMixin
+from users.models import UserProfile
 
 
 from .models import Course, CourseResourse
@@ -71,9 +72,7 @@ class MyCourseListView(View):
         # 课程搜索
         search_keywords = request.GET.get('keywords', '')
         if search_keywords:
-            all_courses = all_courses.filter(
-                Q(name__icontains=search_keywords) | Q(desc__icontains=search_keywords) | Q(
-                    detail__icontains=search_keywords))
+            all_courses = all_courses.filter(Q(name__icontains=search_keywords) | Q(desc__icontains=search_keywords) | Q(detail__icontains=search_keywords))
 
         # 课程排序
         sort = request.GET.get('sort', "")

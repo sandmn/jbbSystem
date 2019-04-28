@@ -70,9 +70,16 @@ function search_click(){
         request_url = "/course/list?keywords="+keywords
     }else if(type == "teacher"){
         request_url = "/org/teacher/list?keywords="+keywords
-    }else if(type == "org"){
-        request_url = "/org/list?keywords="+keywords
+    }else {
+        request_url = "/course/mylist?keywords="+keywords
     }
+    // if(type == "course"){
+    //     request_url = "/course/list?keywords="+keywords
+    // }else if(type == "teacher"){
+    //     request_url = "/org/teacher/list?keywords="+keywords
+    // }else if(type == "org"){
+    //     request_url = "/course/mylist?keywords="+keywords
+    // }
     window.location.href = request_url
 }
 

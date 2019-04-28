@@ -15,7 +15,7 @@ from .models import UserProfile, EmailVerifyRecord
 from .forms import LoginForm, RegisterForm, UploadImageForm, ModifyPwdForm, UserInfoForm, ForgetForm
 from utils.email_send import send_register_email
 from utils.mixin_utils import LoginRequiredMixin
-from operation.models import UserCourse, UserFavorite, UserMessage
+from operation.models import UserCourse, UserTimeTable,  UserFavorite, UserMessage, UserApply
 from organization.models import CourseOrg, Teacher
 from courses.models import Course
 from .models import Banner
@@ -242,15 +242,15 @@ class UpdateEmailView(LoginRequiredMixin, View):
             return HttpResponse('{"email": "验证码出错"}', content_type='application/json')
 
 
-class MyCourseView(LoginRequiredMixin, View):
-    """
-    我的课程
-    """
-    def get(self, request):
-        user_courses = UserCourse.objects.filter(user=request.user)
-        return render(request, 'usercenter-mycourse.html', {
-            'user_courses': user_courses,
-        })
+# class MyCourseView(LoginRequiredMixin, View):
+#     """
+#     我的课程
+#     """
+#     def get(self, request):
+#         user_courses = UserCourse.objects.filter(user=request.user)
+#         return render(request, 'usercenter-mycourse.html', {
+#             'user_courses': user_courses,
+#         })
 
 
 class MyFavOrgView(LoginRequiredMixin, View):
@@ -301,6 +301,41 @@ class MyFavCourseView(LoginRequiredMixin, View):
         })
 
 
+class MyApplyCourseView(LoginRequiredMixin, View):
+    """
+    我报名的课程
+    """
+    def get(self, request):
+        course_list = []
+        apply_courses = UserApply.objects.filter(user=request.user)
+        for apply_course in apply_courses:
+            course_id = apply_course.fav_id
+            course = Course.objects.get(id=course_id)
+            course_list.append(course)
+        return render(request, 'usercenter-mycourse.html', {
+            'course_list': course_list,
+        })
+
+
+class MyTimeTableView(LoginRequiredMixin, View):
+    """
+    我的课表
+    """
+    def get(self, request):
+        all_timetable = UserTimeTable.objects.filter(user=request.user.id)
+
+        # 对消息进行分页
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+        p = Paginator(all_timetable, 5, request=request)  # 5表示每一页的数量
+        timetables = p.page(page)
+        return render(request, 'usercenter-timetable.html', {
+            'timetables': timetables
+        })
+
+
 class MymessageView(LoginRequiredMixin, View):
     """
     我的消息
@@ -333,15 +368,17 @@ class IndexView(View):
     def get(self, request):
         # 取出轮播图
         all_banners = Banner.objects.all().order_by('index')
-        courses = Course.objects.all()[:6]
+        courses = Course.objects.all()[:7]
         # courses = Course.objects.filter(is_banner=False)[:6]
         # banner_courses = Course.objects.filter(is_banner=True)[:3]
         course_orgs = CourseOrg.objects.all()[:15]
+        teachers = Teacher.objects.all()[:15]
         return render(request, 'index.html', {
             'all_banners': all_banners,
             'courses': courses,
             # 'banner_courses': banner_courses,
-            'course_orgs': course_orgs
+            'course_orgs': course_orgs,
+            'teachers': teachers
         })
 
 
