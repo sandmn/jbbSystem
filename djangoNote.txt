@@ -251,7 +251,7 @@ csrf攻击：跨站请求伪造
 
 djangoueditor插件安装：
 在网上下载与python版本对应的djangoueditor
-1. 进入虚拟环境的源码包目录下： pip install DjangoUediitor
+1.将下载目录下的DjangoUeditor复制到虚拟环境目录的Lib/site_packages下
 2. settings.py中INSTALLED_APPS中加入DjangoUeditor
 3. url文件中配置url    url(r'^ueditor/', include('DjangoUeditor.urls')),
 4. model文件中引入UEditorField,然后在定义的字段中使用： detail=UEditorField()
