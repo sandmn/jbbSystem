@@ -23,6 +23,9 @@ class UserProfile(AbstractUser):
     address = models.CharField(max_length=100, default=u"")
     mobile = models.CharField(max_length=11, null=True, blank=True)
     image = models.ImageField(upload_to="image/%Y/%m", default=u"image/default.png", max_length=100)
+    category = models.IntegerField(default=0, verbose_name=u"会员信息") # 0表示非会员，1表示会员
+    # is_vip = models.CharField(max_length=10, choices=(("vip", u"会员"), ("unvip", u"非会员")),
+    # default="", verbose_name=u"会员信息")
 
     class Meta:
         verbose_name = u"用户信息"

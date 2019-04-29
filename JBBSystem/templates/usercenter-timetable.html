@@ -1,0 +1,48 @@
+{% extends 'usercenter-base.html' %}
+{% block title %}我的消息- 慕学在线网{% endblock %}
+{% load staticfiles %}
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <ul  class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                <li><a href="/users/info/">个人中心</a>></li>
+                <li>我的课表</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+
+{% block right_content %}
+    <div class="right" >
+		<div class="personal_des Releasecont">
+			<div class="head">
+				<h1>我的课表</h1>
+			</div>
+
+		</div>
+		<div class="personal_des permessage">
+			<div class="head">
+				<ul class="tab_header messagehead">
+					<li class="active"><a href="/user/message/">课表</a> </li>
+				</ul>
+			</div>
+            {% for timetable in timetables.object_list %}
+			<div class="messagelist">
+                    <div class="messages">
+                        <div class="fr">
+                            <div class="top"><span class="fl time">{{ timetable.add_time }}</span><span class="fr btn foldbtn"></span></div>
+                            <p>
+                                {{ timetable.timetable }}
+                            </p>
+                        </div>
+                    </div>
+			</div>
+            {% endfor %}
+
+		</div>
+
+	</div>
+{% endblock %}
+
+

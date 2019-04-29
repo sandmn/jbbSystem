@@ -4,7 +4,7 @@ __date__ = '2019/4/10 14:04'
 
 import xadmin
 
-from .models import UserAsk, CourseComments, UserFavorite, UserApply, UserMessage, UserCourse
+from .models import UserAsk, CourseComments, UserFavorite, UserApply, UserMessage, UserCourse, UserTimeTable
 
 
 class UserAskAdmin(object):
@@ -50,9 +50,19 @@ class UserCourseAdmin(object):
     model_icon = 'fa fa-question-circle'
 
 
+class UserTimeTableAdmin(object):
+    list_display = ['user', 'timetable', 'add_time']  # 设置记录显示的字段
+    search_fields = ['user', 'timetable']  # 设置搜索的字段
+    list_filter = ['user', 'timetable', 'add_time']  # 设置过滤器，注意外键书写：course__name
+    style_fields = {"timetable": "ueditor"}
+    model_icon = 'fa fa-question-circle'
+
+
 xadmin.site.register(UserAsk, UserAskAdmin)
 xadmin.site.register(CourseComments, CourseCommentsAdmin)
 xadmin.site.register(UserFavorite, UserFavoriteAdmin)
 xadmin.site.register(UserApply, UserApplyAdmin)
 xadmin.site.register(UserMessage, UserMessageAdmin)
 xadmin.site.register(UserCourse, UserCourseAdmin)
+xadmin.site.register(UserTimeTable, UserTimeTableAdmin)
+

@@ -252,7 +252,7 @@ class AddApplyView(View):
             user_apply = UserApply()
             user_course = UserCourse()
             course = Course.objects.get(id=int(fav_id))
-            if int(fav_id) > 0 and course.students < course.limit:
+            if int(fav_id) > 0 and course.students < course.limit and request.user.category == 1:
                 user_apply.user = request.user
                 user_apply.fav_id = int(fav_id)
                 user_apply.save()
@@ -265,9 +265,12 @@ class AddApplyView(View):
                 course.save()
                 return HttpResponse("{'status':'success', 'msg':'已报名'}",
                                     content_type='application/json')
-                # else:
-                #     return HttpResponse("{'status':'fail', 'msg':'名额已满'}",
-                #                         content_type='application/json')
+            elif course.students >= course.limit:
+                return HttpResponse("{'status':'fail', 'msg':'名额已满'}",
+                                    content_type='application/json')
+            elif request.user.category != 1:
+                return HttpResponse("{'status':'fail', 'msg':'您还不是会员呢'}",
+                                    content_type='application/json')
             else:
                 return HttpResponse("{'status':'fail', 'msg':'报名失败'}",
                                     content_type='application/json')

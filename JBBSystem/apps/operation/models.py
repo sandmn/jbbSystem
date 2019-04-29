@@ -1,10 +1,11 @@
 # _*_ encoding:utf-8 _*_
 from datetime import datetime
-
+from DjangoUeditor.models import UEditorField
 from django.db import models
 
 from users.models import UserProfile
 from courses.models import Course
+
 # Create your models here.
 
 
@@ -53,7 +54,7 @@ class UserApply(models.Model):
 
 
 class UserMessage(models.Model):
-    user = models.IntegerField(default=0, verbose_name=u"接受用户") # 0发给全部人员，
+    user = models.IntegerField(default=0, verbose_name=u"接受用户") # 0 发给全部人员，
     message = models.CharField(max_length=500, verbose_name=u"消息内容")
     has_read = models.BooleanField(default=False, verbose_name=u"是否已读")
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
@@ -70,4 +71,15 @@ class UserCourse(models.Model):
 
     class Meta:
         verbose_name = u"用户课程"
+        verbose_name_plural = verbose_name
+
+
+class UserTimeTable(models.Model):
+    user = models.IntegerField(default=0, verbose_name=u"接受用户")  # 0 发给全部人员，
+    timetable = UEditorField(verbose_name=u"课表", width=600, height=300, toolbars="full", imagePath="operation/ueditor", filePath="operation/ueditor", default="")
+    add_time = models.DateTimeField(default=datetime.now, verbose_name=u"学习时间")
+
+
+    class Meta:
+        verbose_name = u"用户课表"
         verbose_name_plural = verbose_name
