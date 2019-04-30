@@ -7,6 +7,22 @@ https://git.imooc.com/coding-78/coding-78.git
 
 安装 pycharm专业版，python， 在python中安装django， 安装mysql navicat
 安装虚拟环境  pip install virtualenvwrapper-win(linux下不用加-win)
+1.python安装完成后，在cmd中输入python 进行查看
+  django安装完成之后，进入python执行一下命令进行查看：import django django.get_version()
+  启动mysql服务：net start mysql。进入mysql：mysql -u root -p 密码：yan21188*
+2.要使用虚拟环境,首先需要安装virtualenv：pip install virtualenv
+  如果下载的python中没有pip，就需要自行安装pip：见测试教程selenium1，安装完成之后输入命令：pip进行查看
+  安装好pip之后，就可以安装virtualenv了。virtualenv默认安装在当前目录下，若要在任何地方都可以使用，需要将virtualenv的安装目录添加到环境变量Path中
+  安装好virtual之后，就可以创建虚拟环境了
+
+
+
+
+
+
+
+
+
 
 
 
@@ -19,30 +35,125 @@ https://git.imooc.com/coding-78/coding-78.git
    查看虚拟环境中安装了哪些开发包：pip list
    退出虚拟环境：deactivate.bat
 3. 创建并进入虚拟环境2（不需要知道虚拟环境所在的目录）
-    前提：安装 pip install virtualenvwrapper-win(linux下不用加-win)
+    前提：安装 pip install virtualenvwrapper-win(linux下不用加-win)该安装包的路径也需要放在环境变量中
     创建虚拟环境：mkvirtulenv 虚拟环境名(默认会放在一个统一的目录Env下，创建成功后直接进入虚拟环境)
     deactivate：退出虚拟环境
     workon：查看当前有哪些虚拟环境
     workon 虚拟环境名：进入虚拟环境
     pip (un)install 开发包名：在虚拟环境中（卸载）安装开发包
+4.如果相应的安装包安装在C盘，要以管理员身份启动
+5.pycharm启动后，创建相应的目录结构：
+  创建app，用于展示页面：工具栏tools -> run manage.py task ->在下方的界面中输入：startapp app名，如message（每建一个app，都需要在settings中INSTALLED——APPS变量中注册）
+  run manage.py task出问题时：安装mysql-python,mysqlclient
+  创建static目录，用于存放css文件：创建目录static ->  创建子目录css -> 创建css文件
+  创建log目录，用于存放日志文件
+  创建media目录
+  已存在的templates目录中存放表单即html文件
+  已存在的djangotest，目录下的settings.py进行配置，urls.py用于路径配置
+
+6.将html文件和css文件放入相应的目录下，在html文件的<head>中引入css文件路径：<link rel="stylesheet" href="/static/css/style.css">
+
+7.在settings中将数据库配置好之后，
+  通过工具栏tools -> run manage.py task -> makemigrations -> migrate 生成默认的数据表（pycharm中）
+  run manage.py task出问题时：安装mysql-python->mysqlclient
+8.运行项目：
+  配置urls文件：from message.view import getform
+               url(r'^form/$',getform)
+  书写views文件：def getform(request):
+                      render(request，‘html文件名’)
+                request是一个http对象
+  配置settings文件: ‘DIRS'：[os.path.join()]
+
+
+
+
+
+
+
+
 
 
 
 4. django orm：不必使用接口去连接数据库，查询数据库，对查询结果进行操作提取。使得对数据库的操作如操作类一样
 5. 每建一个app，都需要在settings中注册
+生成数据表
 6. 在models中使用中文是，要在开头引入utf-8：_*_ coding:utf-8 _*_
+models文件中：
+   model部分：书写字段属性信息
+   Meta部分：页面名称，排序，表名等信息
 7. models文件编写完成之后，
     tools->run task...
     makemigrations message(appname)
     migrate message(appname)  
     以上步骤用于生成对应models中字段的数据表
-8. 
+8. 数据表中一定要定义主键，如果自己不定义，系统会自动生成一个id主键
+
+
+
+
+数据表的增删查改：需要在跟model文件同一目录的views文件中引入model中定义的类,如：UserMessage（有一个默认的数据表管理器objects）
+  在view文件中：getform()中进行如下操作
+1.all_messages = UserMessage.objects.all():获取数据表中的所有记录,结果是一个QuerySet的类
+  for message in all_message:
+      message.delete():删除单个记录
+      print message.name  #打印记录中的name
+2.all_message = UserMessage.objects.filter(name1='yan',name2='xuechun'):根据条件查询数据
+  all_message.delete():将查询到的数据删除
+3.向数据库中添加字段：
+  首先实例化一个UserMessage类的对象：user_message = UserMessage()
+  通过对象设置字段：user_message.name1 = "yan"
+    		   user_message.name2 = "xuechun"
+  设置完所有的字段之后，将数据保存到数据库中：user_message.save()(这是model自带的函数)
+4.在页面输入信息，提交到数据库:
+  在html文件中的action中添加：/form/    </form>上添加：{%csrf_token%}(防止403,djangoo的安全机制)
+  点击“提交”按钮之后。数据被存放在表单中getform(request)，即request中
+
+
+
+url templates配置
+将数据库中的数据呈现在html页面中：
+url:配置别名，在html文件和url. 文件中进行修改
+
+
+
+python3与python2的区别：
+1.新建虚拟环境时，可以指定python版本：mkvirtualenv -p 指定python版本的python.exe的路径（路径追加至python.exe） 虚拟环境名
+2.设计model时：将__str__改为__unicode__
+3.安装mysql_python时：可用Mysqlclient替代
+4.xadmin的下载：在github中搜索mx
+5.
 
 
 
 
 
 
+
+1.django-admin创建项目：django-admin startproject HelloWorld(项目名)
+  启动服务器：python manage.py runserver 0.0.0.0:8000
+2.视图配置：新建view.py文件，定义一个函数如hello，在其中输入要显示的页面代码
+3.URL配置：打开urls.py文件，配置view，如：
+           from .import view   (view与url文件位于同级目录)
+           urlpatterns = [url(r'^$',view.hello)],  此时在浏览器中输入127.0.0.0:8000进行访问
+           urlpatterns = [url('hello',view.hello)],此时在浏览器中输入127.0.0.0:8000/hello进行访问
+4.创建templates目录，在该目录下存放html文件。在settings.py文件的TEMPLATES中配置DIR
+5.render:????????
+
+6.如果项目涉及到数据库，则需要在settings中进行配置。数据库中的表要提前创建
+7.创建App:django-admin startapp App名   创建一个app之后要在settings文件中进行添加
+  创建一些必须的表：python manage.py migrate
+8.在app目录下的models.py文件中定义表的结构：需引入：from django.db import models
+  让django知道模型有变更：python manage.py makemigrations
+  生成TestModel表：python manage.py migrate
+  注意：每当models文件有修改时，就需要执行上面两条语句
+10.在app目录下的view文件中对表进行操作，进行试图显示。在url中继续路径引入设置
+11.html文件中的action表示的是表单提交后将要跳转的页面
+12.Django Admin管理工具：不需要html文件来展示页面，使用admin之后系统自动展示
+13.Django admin进行管理:
+   url.py文件中要配置admin的路径;
+   python manage.py createsuperuser：创建超级用户（注册用户名，邮箱等）
+   python manage.py runserver 0.0.0.0:8000：启动服务
+   浏览器中输入：127.0.0.0:8000/admin
 
 
 
@@ -69,6 +180,7 @@ users.models.py设计
     图形定义：models.ImageField(upload_to="image/%Y/%m",default=u"image/default.png", max_length=100)  ?????
     Meta中：verbose_name_plural  ？？？
     def __unicode__(self): return self.username  ？？？
+
     开头引入;utf-8编码
 3. 在settings中注册app：“users”
     重载setting方法：AUTH_USER_MODEL = "users.UserProfile"
