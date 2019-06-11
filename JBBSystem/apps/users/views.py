@@ -363,7 +363,7 @@ class MymessageView(LoginRequiredMixin, View):
 
 class IndexView(View):
     """
-    慕学在线网首页
+    金宝贝在线网首页
     """
     def get(self, request):
         # 取出轮播图

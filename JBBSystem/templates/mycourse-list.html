@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}课程机构列表 - 慕学在线网{% endblock %}
+{% block title %}课程机构列表 - 金宝贝在线网{% endblock %}
 {% load staticfiles %}
 {% block custom_bread %}
     <section>
@@ -60,7 +60,7 @@
 {#                        <a href="{% url 'org:org_home' course_org.id %}">#}
                          <a href="{% url 'course:mycourse_detail' mycourse.id %}">
                                     <img width="280" height="350" class="scrollLoading" src="{{ MEDIA_URL }}{{ mycourse.image }}"/>
-                                </a>
+                         </a>
                     </dt>
                     <dd>
                         <div class="clearfix">
@@ -108,7 +108,7 @@
 		</div>
 	</div>
 {#	<div class="right companyright">#}
-{#			<div class="head">我要学习</div>#}
+{#			<div class="head">预约试听</div>#}
 {#			<form class="rightform" id="jsStayForm" action="/org/" method="post" autocomplete="off">#}
 {#				<div>#}
 {#                    <img src="{% static 'images/rightform1.png' %}"/>#}
@@ -123,7 +123,12 @@
 {#                    <input type="text" name="course_name" id="companyAddress" placeholder="课程名" maxlength="50" />#}
 {#                </div>#}
 {#                <p class="error company-tips" id="jsCompanyTips"></p>#}
-{#				<input class="btn" type="submit" id="jsStayBtn" value="立即咨询 >" />#}
+{#
+{#                <div class="btn colectgroupbtn" id="jsLeftBtn">#}
+{#                    {% if has_fav_course %}已收藏{% else %}收藏{% endif %}#}
+{#                </div>#}
+{#                <a style="color:white" class="btn" href="{% url 'org:add_ask' %}">立即试听</a>#}
+{#				<input class="btn" type="submit" id="jsStayBtn" value="立即试听 >" />#}
 {#            {% csrf_token %}#}
 {#            </form>#}
 {#		</div>#}
@@ -146,26 +151,58 @@
 {% endblock %}
 
 {% block custom_js %}
-<script>
-    $(function(){
-        $('#jsStayBtn').on('click', function(){
-            $.ajax({
-                cache: false,
-                type: "POST",
-                url:"{% url "org:add_ask" %}",
-                data:$('#jsStayForm').serialize(),
-                async: true,
-                success: function(data) {
-                    if(data.status == 'success'){
-                        $('#jsStayForm')[0].reset();
-                        alert("提交成功")
-                    }else if(data.status == 'fail'){
-                        $('#jsCompanyTips').html(data.msg)
-                    }
-                },
-            });
-        });
-    })
+<script type="text/javascript">
+//收藏分享
+function add_fav(current_elem, nick_name, mobile){
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url:"{% url "org:add_ask" %}",
+        data:{'nick_name':nick_name, 'mobile':mobile},
+        async: true,
+        beforeSend:function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        },
+        success: function(data) {
+            if(data.status == 'fail'){
+                if(data.msg == '用户未登录'){
+                    window.location.href="/login/";
+                }else{
+                    {#alert(data.msg);#}
+                    confirm(data.msg);
+                }
 
+            }else if(data.status == 'success'){
+                current_elem.text(data.msg)
+            }
+        },
+    });
+}
 </script>
+
 {% endblock %}
+
+{#{% block custom_js %}#}
+{#<script>#}
+{#    $(function(){#}
+{#        $('#jsStayBtn').on('click', function(){#}
+{#            $.ajax({#}
+{#                cache: false,#}
+{#                type: "POST",#}
+{#                url:"{% url "org:add_fav" %}",#}
+{#                data:$('#jsStayForm').serialize(),#}
+{#                async: true,#}
+{#                success: function(data) {#}
+{#                    if(data.status == 'success'){#}
+{#                        $('#jsStayForm')[0].reset();#}
+{#                        alert("提交成功")#}
+{#                    }else if(data.status == 'fail'){#}
+{#                        $('#jsCompanyTips').html(data.msg)#}
+{#                    }#}
+{#                },#}
+{#            });#}
+{#        });#}
+{#    })#}
+{##}
+{#</script>#}
+{#{% endblock %}#}

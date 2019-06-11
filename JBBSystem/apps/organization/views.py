@@ -8,7 +8,7 @@ from django.db.models import Q
 
 from .models import CourseOrg, CityDict, Teacher
 from .forms import UserAskForm
-from operation.models import UserFavorite, UserApply, UserCourse
+from operation.models import UserFavorite, UserApply, UserEstimate, UserCourse, UserAppointment
 from courses.models import Course
 from utils.mixin_utils import LoginRequiredMixin
 # Create your views here.
@@ -276,12 +276,83 @@ class AddApplyView(View):
                                     content_type='application/json')
 
 
+class AddAppointmentView(View):
+    """
+    用户课程预约
+    """
+    def post(self, request):
+        fav_id = request.POST.get('fav_id', 0)
+
+        if not request.user.is_authenticated():  # 判断用户是否登陆
+            # 判断用户登陆状态
+            return HttpResponse("{'status':'fail', 'msg':'用户未登录'}",
+                                content_type='application/json')
+
+        exist_records = UserAppointment.objects.filter(user=request.user, fav_id=int(fav_id))
+        # user_course = UserCourse.objects.filter(user=request.user)
+        if exist_records:
+            # 如果记录已经存在，表示用户取消报名
+            exist_records.delete()
+            return HttpResponse("{'status':'success', 'msg':'预约'}",
+                                content_type='application/json')
+        else:
+            user_appointment = UserAppointment()
+            if int(fav_id) > 0 and request.user.category == 0:
+                user_appointment.user = request.user
+                user_appointment.fav_id = int(fav_id)
+                user_appointment.save()
+
+                return HttpResponse("{'status':'success', 'msg':'已预约'}",
+                                    content_type='application/json')
+            elif request.user.category != 0:
+                return HttpResponse("{'status':'fail', 'msg':'您已经是会员啦'}",
+                                    content_type='application/json')
+            else:
+                return HttpResponse("{'status':'fail', 'msg':'预约失败'}",
+                                    content_type='application/json')
+
+
+class AddEstimateView(View):
+    """
+    教师满意度评估
+    """
+    def post(self, request):
+        estimate = request.POST.get('estimate', 0)
+
+        if not request.user.is_authenticated():  # 判断用户是否登陆
+            # 判断用户登陆状态
+            return HttpResponse("{'status':'fail', 'msg':'用户未登录'}",
+                                content_type='application/json')
+        # 查询已存在的记录
+        exist_records = UserEstimate.objects.filter(user=request.user, estimate=int(estimate))
+        if exist_records:
+            # 如果记录已经存在，表示用户取消
+            exist_records.delete()
+            return HttpResponse("{'status':'success', 'msg':'报名'}",
+                                content_type='application/json')
+        else:
+            user_estimate = UserEstimate()
+            if int(estimate) > 0 and request.user.category == 1:
+                user_estimate.user = request.user
+                user_estimate.estimate = int(estimate)
+                user_estimate.save()
+                return HttpResponse("{'status':'success', 'msg':'已报名'}",
+                                    content_type='application/json')
+            elif request.user.category != 1:
+                return HttpResponse("{'status':'fail', 'msg':'您还不是会员呢'}",
+                                    content_type='application/json')
+            else:
+                return HttpResponse("{'status':'fail', 'msg':'报名失败'}",
+                                    content_type='application/json')
+
+
 class TeacherListView(View):
     """
     课程讲师列表页
     """
     def get(self, request):
         all_teachers = Teacher.objects.all()
+        teacher_count = all_teachers.count()
 
         # 机构搜索
         search_keywords = request.GET.get('keyword', '')
@@ -312,6 +383,7 @@ class TeacherListView(View):
             "all_teachers": teachers,
             "sorted_teacher": sorted_teacher,
             "sort": sort,
+            'teacher_count': teacher_count,
         })
 
 

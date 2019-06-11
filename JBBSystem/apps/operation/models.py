@@ -53,6 +53,27 @@ class UserApply(models.Model):
         verbose_name_plural = verbose_name
 
 
+class UserAppointment(models.Model):
+    user = models.ForeignKey(UserProfile, verbose_name=u"用户")
+    fav_id = models.IntegerField(default=0, verbose_name=u"数据id")
+    add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
+
+    class Meta:
+        verbose_name = u'用户预约'
+        verbose_name_plural = verbose_name
+
+
+class UserEstimate(models.Model):
+    """
+    用户满意度评估
+    """
+    user = models.ForeignKey(UserProfile, verbose_name=u"用户")
+    estimate = models.IntegerField(default=0, verbose_name=u"满意度")  # 1,2,3，4 优良中差
+    # estimate = models.CharField(choices=(("best", u"优"), ("good", u"良"), ("normal", u"中"),
+    # ("bad", u"差")), max_length=10, default="best")  # 性别
+    add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
+
+
 class UserMessage(models.Model):
     user = models.IntegerField(default=0, verbose_name=u"接受用户") # 0 发给全部人员，
     message = models.CharField(max_length=500, verbose_name=u"消息内容")
@@ -76,7 +97,10 @@ class UserCourse(models.Model):
 
 class UserTimeTable(models.Model):
     user = models.IntegerField(default=0, verbose_name=u"接受用户")  # 0 发给全部人员，
-    timetable = UEditorField(verbose_name=u"课表", width=600, height=300, toolbars="full", imagePath="operation/ueditor", filePath="operation/ueditor", default="")
+    # timetable = UEditorField(verbose_name=u"课表", width=600, height=300, toolbars="full",
+    # imagePath="operation/ueditor", filePath="operation/ueditor", default="")
+
+    timetable = models.ImageField(upload_to="image/%Y/%m", default=u"image/default.png", verbose_name=u"课表", max_length=100)
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u"学习时间")
 
 

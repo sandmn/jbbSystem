@@ -1,5 +1,5 @@
 {% extends 'usercenter-base.html' %}
-{% block title %}我的消息- 慕学在线网{% endblock %}
+{% block title %}我的消息- 金宝贝在线网{% endblock %}
 {% load staticfiles %}
 {% block custom_bread %}
     <section>
@@ -33,7 +33,9 @@
                         <div class="fr">
                             <div class="top"><span class="fl time">{{ timetable.add_time }}</span><span class="fr btn foldbtn"></span></div>
                             <p>
-                                {{ timetable.timetable }}
+                                <div class="picpic">
+                                <img width="800" height="500" src="{{ MEDIA_URL }}{{ timetable.timetable }}"/>
+                            </div>
                             </p>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}课程机构列表 - 慕学在线网{% endblock %}
+{% block title %}课程机构列表 - 金宝贝在线网{% endblock %}
 {% load staticfiles %}
 {% block custom_bread %}
     <section>
@@ -25,18 +25,20 @@
                             </div>
                         </dt>
                         <dd>
-                                <h1>{{ course.name }}</h1>
-                            <ul class="cont">
-{#                                <li>工作年限：<span>{{ teacher.work_years }}年</span></li>#}
-{#                                <li>年龄：<span>{{ teacher.age }}</span></li>#}
-                            </ul>
+                            <h1>{{ course.name }}</h1>
                         </dd>
                     </dl>
+                    <div class="groupPurchase_detail detail">
+                        <div class="toppro">
+                            <div class="btns">
+							   <div class="buy btn" id="jsBtn">
+                                {% if has_appointment %}已预约{% else %}我要预约(仅限非会员){% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-
-
 	<div class="wp butler_list_box list">
         <div class="left layout">
 				<div class="head">
@@ -55,4 +57,39 @@
         </div>
     </div>
  </section>
+{% endblock %}
+{% block custom_js %}
+<script type="text/javascript">
+//收藏分享
+function add_apply(current_elem, fav_id){
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url:"{% url "org:add_appointment" %}",
+        data:{'fav_id':fav_id},
+        async: true,
+        beforeSend:function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        },
+        success: function(data) {
+            if(data.status == 'fail'){
+                if(data.msg == '用户未登录'){
+                    window.location.href="/login/";
+                }else{
+                    alert(data.msg)
+                }
+
+            }else if(data.status == 'success'){
+                current_elem.text(data.msg)
+            }
+        },
+    });
+}
+
+$('#jsBtn').on('click', function(){
+    add_apply($(this), {{ course.id }});
+});
+
+</script>
+
 {% endblock %}

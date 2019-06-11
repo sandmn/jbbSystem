@@ -1,5 +1,5 @@
 {% extends 'usercenter-base.html' %}
-{% block title %}个人信息- 慕学在线网{% endblock %}
+{% block title %}个人信息- 金宝贝在线网{% endblock %}
 
 {% block custom_bread %}
     <section>
@@ -34,9 +34,9 @@
                         </label>
                         {% csrf_token %}
                     </form>
-                    <div style="border-top:1px solid #eaeaea;margin-top:30px;">
-                        <a class="button btn-green btn-w100" id="jsUserResetPwd" style="margin:80px auto;width:100px;">修改密码</a>
-                    </div>
+{#                    <div style="border-top:1px solid #eaeaea;margin-top:30px;">#}
+{#                        <a class="button btn-green btn-w100" id="jsUserResetPwd" style="margin:80px auto;width:100px;">修改密码</a>#}
+{#                    </div>#}
 				</div>
 				<form class="perinform" id="jsEditUserForm" autocomplete="off">
 					<ul class="right">
@@ -61,7 +61,7 @@
                         </li>
                         <li>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱：
                         	<input class="borderno" type="text" name="email" readonly="readonly" value="{{ request.user.email }}"/>
-                            <span class="green changeemai_btn">[修改]</span>
+{#                            <span class="green changeemai_btn">[修改]</span>#}
                     	</li>
 						<li class="button heibtn">
 							<input type="button" id="jsEditUserBtn" value="保存">

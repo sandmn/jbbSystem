@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
-    <title>慕学在线注册</title>
+    <title>金宝贝在线注册</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
 
@@ -18,7 +18,7 @@
         <form id="jsLoginForm" autocomplete="off">
             <div class="box">
                 <span class="word3">用户名</span>
-                <input type="text" name="account_l" id="account_l" placeholder="手机号/邮箱" />
+                <input type="text" name="account_l" id="account_l" placeholder="邮箱" />
             </div>
             <div class="box">
                 <span class="word2">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</span>
@@ -64,18 +64,18 @@
 </div>
 
 <div class="bg" id="dialogBg"></div>
-<header>
-    <div class="c-box fff-box">
-        <div class="wp header-box">
-            <p class="fl hd-tips">慕学在线，在线学习平台！</p>
-            <ul class="fr hd-bar">
-                <li>服务电话：<span>4001008031</span></li>
-                <li><a href="/login/">[登录]</a></li>
-                <li class="active"><a href="/register/">[注册]</a></li>
-            </ul>
-        </div>
-    </div>
-</header>
+{#<header>#}
+{#    <div class="c-box fff-box">#}
+{#        <div class="wp header-box">#}
+{#            <p class="fl hd-tips">慕学在线，在线学习平台！</p>#}
+{#            <ul class="fr hd-bar">#}
+{#                <li>服务电话：<span>4001008031</span></li>#}
+{#                <li><a href="/login/">[登录]</a></li>#}
+{#                <li class="active"><a href="/register/">[注册]</a></li>#}
+{#            </ul>#}
+{#        </div>#}
+{#    </div>#}
+{#</header>#}
 <section>
     <div class="c-box bg-box">
         <div class="login-box clearfix">
@@ -84,21 +84,21 @@
                 <h1>用户注册</h1>
                 <a class="index-font" href="{% url 'index' %}">回到首页</a>
             </div>
-            <div class="fl slide">
-                <div class="imgslide">
-                    <ul class="imgs">
-
-                        <li><a href=""><img width="483" height="472" src="../images/57a801860001c34b12000460.jpg" /></a></li>
-
-                        <li><a href=""><img width="483" height="472" src="../images/57a801860001c34b12000460.jpg" /></a></li>
-
-                        <li><a href=""><img width="483" height="472" src="../images/57a801860001c34b12000460.jpg" /></a></li>
-
-                    </ul>
-                </div>
-                <div class="unslider-arrow prev"></div>
-                <div class="unslider-arrow next"></div>
-            </div>
+{#            <div class="fl slide">#}
+{#                <div class="imgslide">#}
+{#                    <ul class="imgs">#}
+{##}
+{#                        <li><a href=""><img width="483" height="472" src="../images/57a801860001c34b12000460.jpg" /></a></li>#}
+{##}
+{#                        <li><a href=""><img width="483" height="472" src="../images/57a801860001c34b12000460.jpg" /></a></li>#}
+{##}
+{#                        <li><a href=""><img width="483" height="472" src="../images/57a801860001c34b12000460.jpg" /></a></li>#}
+{##}
+{#                    </ul>#}
+{#                </div>#}
+{#                <div class="unslider-arrow prev"></div>#}
+{#                <div class="unslider-arrow next"></div>#}
+{#            </div>#}
             <div class="fl form-box">
                 <div class="tab">
                     <!--<h2 class="active">手机注册</h2>-->
@@ -141,7 +141,7 @@
                         </div>
                         <div class="form-group marb8 {% if register_form.errors.password %}errorput{% endif %}">
                             <label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
-                            <input type="password" id="id_password" name="password"  value="{{ register_form.password.value }}" placeholder="请输入6-20位非中文字符密码" />
+                            <input type="password" id="id_password" name="password"  value="{{ register_form.password.value }}" placeholder="请输入5-20位非中文字符密码" />
                         </div>
                         <div class="form-group marb8 captcha1 {% if register_form.errors.captcha %}errorput{% endif %}">
                             <label>验&nbsp;证&nbsp;码</label>
@@ -154,7 +154,7 @@
                     {% csrf_token %}
                     </form>
                 </div>
-                <p class="form-p">已有账号？<a href="login.html">[立即登录]</a></p>
+                <p class="form-p">已有账号？<a href="{% url 'login' %}">[立即登录]</a></p>
             </div>
         </div>
     </div>

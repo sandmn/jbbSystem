@@ -15,7 +15,7 @@ a:hover{
     background:#fff;
 }
 .bg-box{
-    background:url(../images/login-bg.png) no-repeat center center;
+    background:url(../images/login-bg1.png) no-repeat center center;
 }
 .header-box{
     width:1190px;
@@ -57,7 +57,7 @@ a:hover{
     margin-bottom:15px;
     padding-top:32px;
     padding-left:190px;
-    background:url(../images/logo.png) no-repeat 0 center;
+    background:url(../images/logo1.png) no-repeat 0 center;
 }
 .index-logo{
     position:absolute;

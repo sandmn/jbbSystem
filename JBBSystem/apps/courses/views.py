@@ -7,7 +7,7 @@ from django.db.models import Q
 
 
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
-from operation.models import UserFavorite, UserApply, CourseComments, UserCourse
+from operation.models import UserFavorite, UserApply, CourseComments, UserCourse, UserAppointment
 from utils.mixin_utils import LoginRequiredMixin
 from users.models import UserProfile
 
@@ -63,9 +63,6 @@ class MyCourseListView(View):
     这里取出的是概括课程
     """
     def get(self, request):
-        # # 取出轮播图
-        # all_banners = Banner.objects.all().order_by('index')
-
         # 取出概括课程
         all_courses = Course.objects.filter(is_detail=False)
 
@@ -144,8 +141,15 @@ class CourseDetailView(View):
 class MyCourseDetailView(View):
     def get(self, request, course_id):
         course = Course.objects.get(id=int(course_id))
+        # 是否预约
+        has_appointment = False
+        # 如果用户登陆
+        if request.user.is_authenticated():
+            if UserAppointment.objects.filter(user=request.user, fav_id=course.id):
+                has_appointment = True
         return render(request, "mycourse-detail.html", {
             'course': course,
+            'has_appointment': has_appointment,
         })
 
 

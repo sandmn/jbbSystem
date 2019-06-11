@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}课程讲师 - 慕学在线网{% endblock %}
+{% block title %}课程讲师 - 金宝贝在线网{% endblock %}
 {% load staticfiles %}
 {% block custom_bread %}
     <section>
@@ -22,7 +22,7 @@
 					<li {% if sort == 'teacher' %}class="active"{% endif %}><a href="?sort=teacher">教师</a> </li>
 					<li {% if sort == 'expert' %}class="active"{% endif %}><a href="?sort=expert">专家</a></li>
 				</ul>
-                <div class="fr butler-num">共<span class="key">9</span>人&nbsp;&nbsp;&nbsp;</div>
+                <div class="fr butler-num">共<span class="key">{{ teacher_count }}</span>人&nbsp;&nbsp;&nbsp;</div>
 			</div>
                 {% for teacher in all_teachers.object_list %}
                 <dl class="des">
@@ -45,7 +45,8 @@
 					</dt>
 					<dd>
 						<a href="{% url 'org:teacher_detail' teacher.id %}">
-                            <h1>{{ teacher.name }}<span class="key picbig">金牌讲师</span></h1>
+                            <h1>{{ teacher.name }}</h1>
+{#                            <h1>{{ teacher.name }}<span class="key picbig">金牌讲师</span></h1>#}
                         </a>
 						<ul class="cont">
 							<li>工作年限：<span>{{ teacher.work_years }}年</span></li>
@@ -86,17 +87,17 @@
         </div>
 	</div>
 	<div class="right layout">
-		<div class="head">讲师排行榜</div>
+		<div class="head">优秀教师展示</div>
             {% for hot_teacher in sorted_teacher %}
             <dl class="des">
-                <span class="num fl">1</span>
-                <a href="/diary/hk_detail/6/">
+{#                <span class="num fl">1</span>#}
+                <a href="{% url 'org:teacher_detail' hot_teacher.id %}">
                     <dt>
                         <img width="50" height="50" class="scrollLoading"  src="{{ MEDIA_URL }}{{ hot_teacher.image }}"/>
                     </dt>
                 </a>
                 <dd>
-                    <a href="/diary/hk_detail/6/">
+                    <a href="{% url 'org:teacher_detail' hot_teacher.id %}">
                         <h1 title="{{ hot_teacher.name }}">{{ hot_teacher.name }}</h1>
                     </a>
                     <p>工作年限：<span>{{ hot_teacher.work_years }}年</span></p>
